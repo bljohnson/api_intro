@@ -2,20 +2,24 @@
 <html ng-app='myApp'>
   <head>
     <meta charset="utf-8">
-    <title>API Intro (simple heroku Deploy w/ SQL)</title>
+    <title>API Intro (SQL in class)</title>
     <script src="vendors/angular.min.js" charset="utf-8"></script>
     <script src="scripts/script.js" charset="utf-8"></script>
   </head>
   <body>
-    <h1>API Intro (simple heroku Deploy w/ SQL)</h1>
-    <div ng-controller='tuesdayController'>
+    <h1>API Intro (SQL in class)</h1>
+    <div ng-controller='wednesdayController'>
       <input type="text" ng-model='movieIn' value="" placeholder="Movie?">
       <button ng-click='movieSearch()'>Search for Movie</button>
-      <button ng-click='showWatchlist()'>Show my favorites</button>
-      <h2>Your movie(s):</h2>
+      <button ng-click='viewWatchlist()'>View my Watchlist</button>
+      <h2>{{ currentHeader }}</h2>
       <div ng-repeat='search in everySearch'>
-        <img ng-src='{{search.posterURL}}' />
-        <p>{{ search.title }}({{ search.year }}), Director: {{ search.director }} <button ng-click='addFavorite($index)'>Add to favorites</button></p>
+        <img ng-src='{{search.poster_url}}' />
+        <p>{{ search.title }}({{ search.year }}), Director: {{ search.director }} <button ng-click='addFavorite($index)'>Add to favorites</button><button ng-click='removeFromSearches($index)'>Remove From Searches</button></p>
+      </div>
+      <div ng-repeat='movie in allWatchlist'>
+        <img ng-src='{{movie.poster_url}}' />
+        <p>{{ movie.title }}({{ movie.year }}), Director: {{ movie.director }} <button ng-click='setAsWatched($index)'>Seen It!</button><button ng-click='removeFromWatchlist($index)'>Remove From Watchlist</button></p>
       </div>
     </div>
   </body>

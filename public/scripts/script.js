@@ -1,8 +1,10 @@
 var myApp = angular.module( 'myApp', [] );
 
-myApp.controller( 'tuesdayController',[ '$scope', '$http', function( $scope, $http ){
+myApp.controller( 'wednesdayController',[ '$scope', '$http', function( $scope, $http ){
   // global list of movie searches
   $scope.everySearch=[];
+  // global list of watchlist
+  $scope.allWatchlist=[];
   // header shown
   $scope.currentHeader='';
 
@@ -14,7 +16,7 @@ myApp.controller( 'tuesdayController',[ '$scope', '$http', function( $scope, $ht
       title: $scope.everySearch[ index ].title,
       year: $scope.everySearch[ index ].year,
       director: $scope.everySearch[ index ].director,
-      posterURL: $scope.everySearch[ index ].posterURL,
+      poster_url: $scope.everySearch[ index ].poster_url,
     };
     $http({
       method: 'POST',
@@ -45,9 +47,11 @@ myApp.controller( 'tuesdayController',[ '$scope', '$http', function( $scope, $ht
         title: response.data.Title,
         year: response.data.Year,
         director: response.data.Director,
-        posterURL: response.data.Poster
+        poster_url: response.data.Poster
       }; // end object
 
+      $scope.allWatchlist=[];
+      $scope.currentHeader='Your Searches:';
       $scope.everySearch.push( objectToDisplay );
 
       console.log( 'objectToDisplay: ' + objectToDisplay.title + " " + objectToDisplay.year + " " + objectToDisplay.director + " " + objectToDisplay.posterURL);
@@ -57,4 +61,36 @@ myApp.controller( 'tuesdayController',[ '$scope', '$http', function( $scope, $ht
     // clear input field
     $scope.movieIn='';
   };
+
+  // remove from displayed searches
+  $scope.removeFromSearches = function( index ){
+    console.log( 'in removeFromSearches: ' +  index );
+    $scope.everySearch.splice( index );
+  }; // end remove from searches
+
+  // remove from watch list
+  $scope.removeFromWatchlist = function( index ){
+    console.log( 'in removeFromWatchlist: ' + index );
+  }; // end remove from watchlist
+
+  // set as watched
+  $scope.setAsWatched = function( index ){
+    console.log( 'in setAsWatched: ' + index );
+  };
+
+  $scope.viewWatchlist = function(){
+    $http({
+      method:'GET',
+      url:'/getWatchlist'
+    }).then( function( response ){
+      console.dir( 'back from HTTP post: ' + response.data );
+      $scope.allWatchlist = response.data;
+    }); // end http, then
+
+    $scope.everySearch=[];
+    // header shown
+    $scope.currentHeader='Your Watchlist:';
+
+  };
+
 }]);
