@@ -1,6 +1,5 @@
 var myApp = angular.module( 'myApp', [] );
 
-
 myApp.controller( 'tuesdayController',[ '$scope', '$http', function( $scope, $http ){
   // global list of movie searches
   $scope.everySearch=[];
